@@ -1,0 +1,76 @@
+menu "Debug project configuration"
+  config ENABLE_DEBUG_TOOLS
+    bool "Debug Support"
+    default n
+    help
+      Enable/disable whole debug output
+
+  # if ENABLE_DEBUG_TOOLS
+    menu "Debug Items"
+      config MEMORY_MODEL_LOCK_FAIL_DBG_PRINTOUT
+        int "Print amount of memory lock failures"
+        range 0 1
+        default 0
+
+      config MEMORY_MODEL_ENABLE_DEBUG
+        int "Enable memory model debug"
+        range 0 1
+        default 0
+
+      config MQTT_CONN_STATE_DBG_PRINTOUT
+        int "Print MQTT event status (up,down,etc)"
+        range 0 1
+        default 0
+
+      config SERVO_ACTION_DBG_PRINTOUT
+        int "Print current direction for Servo Action"
+        range 0 1
+        default 0
+    endmenu
+
+    # Naming rule:
+    #  YOUR_NAME##_DBG_PROFILER
+    #  YOUR_NAME##_DBG_PROFILER_POINT_ID
+    # NOTE: Point Id Should not be higher than @ref PROFILER_POINTS_MAX
+    menu "Profile Items"
+
+      menu "MQTT_DBG_PROFILER"
+        config MQTT_HASH_DBG_PROFILER
+          int "Trace time used by MQTT Hash"
+          range 0 1
+          default 0
+        config MQTT_HASH_DBG_PROFILER_POINT_ID
+          int "Profile ID"
+          range 0 PROFILER_POINTS_MAX
+          default 3
+
+        config MQTT_DATA_EVENT_DBG_PROFILER
+          int "Trace time used by MQTT data copy"
+          range 0 1
+          default 0
+        config MQTT_DATA_EVENT_DBG_PROFILER_POINT_ID
+          int "Profile ID"
+          range 0 PROFILER_POINTS_MAX
+          default 4
+
+        config MQTT_DATA_PUB_DBG_PROFILER
+          int "Trace time used by MQTT data publish"
+          range 0 1
+          default 0
+        config MQTT_DATA_PUB_DBG_PROFILER_POINT_ID
+          int "Profile ID"
+          range 0 PROFILER_POINTS_MAX
+          default 5
+      endmenu
+
+    endmenu
+  # endif
+
+endmenu
+menu "Pettie Settings"
+  config ENABLE_BRAIN_DEBUG
+    bool "Enable data send to the neuron-viewer over MQTT"
+    default n
+    help 
+      Wights of all cells will be sent to observe their state
+endmenu
